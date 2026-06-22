@@ -34,10 +34,23 @@ import {
   type RateLimitDeps,
 } from "@bounded-systems/github-budget";
 
+// Re-export the sibling types that surface in this package's public API, so
+// consumers depend on gh's contract directly — never reaching into a dependency
+// (closes deno doc's `private-type-ref`; keeps the boundary a complete contract).
+export type { CommandResult, SpawnCaptureResult } from "@bounded-systems/proc";
+export type { PolicyState, PolicyRole, PolicyDecision } from "@bounded-systems/policy";
+export type { RateLimitDeps } from "@bounded-systems/github-budget";
+export { BucketBudgetExhaustedError } from "@bounded-systems/github-budget";
+
+/** The result of an {@link execGh} call: exit code, captured output, the policy decision, and any budget error. */
 export type GhExecResult = {
+  /** The gh process exit code. */
   exitCode: number;
+  /** Captured standard output. */
   stdout: string;
+  /** Captured standard error. */
   stderr: string;
+  /** The policy decision that gated the call, or `null` when policy wasn't enforced. */
   policy: PolicyDecision | null;
   /**
    * Set when the rate-limit gate (GH-1141) refused or detected exhaustion.
@@ -47,13 +60,17 @@ export type GhExecResult = {
   budgetError?: BucketBudgetExhaustedError;
 };
 
+/** What to run and how to gate it for {@link execGh}. */
 export type GhExecOptions = {
   /** The gh command group (`pr` or `issue`). */
   group: string;
+  /** The gh subcommand (e.g. `list`, `view`, `create`). */
   subcommand: string;
+  /** Remaining gh arguments. */
   args: string[];
   /** If set, enforce policy before executing. */
   state?: PolicyState;
+  /** The actor role policy is evaluated against. */
   role?: PolicyRole;
 };
 
@@ -73,9 +90,13 @@ export type GhExecDeps = {
 const ALLOWED_GROUPS = ["pr", "issue"] as const;
 type AllowedGroup = (typeof ALLOWED_GROUPS)[number];
 
+/** Environment passed to the gh child — recognized capability/role hints plus arbitrary passthrough. */
 export type GhExecEnv = {
+  /** Capability state hint read by the policy gate. */
   PRX_CAPABILITY_STATE?: string;
+  /** Agent role hint read by the policy gate. */
   PRX_AGENT_ROLE?: string;
+  /** Any other environment variables. */
   [key: string]: string | undefined;
 };
 
@@ -222,6 +243,7 @@ export function execGh(
 /** Raw `gh` runner seam — tests inject a fake; production uses runCaptured. */
 export type GhRawRunner = (argv: string[]) => CommandResult;
 
+/** Injectable deps for {@link fetchIssueLabels} (the raw gh runner). */
 export type FetchIssueLabelsDeps = {
   /** Defaults to `runCaptured` with `check: false`. */
   rawRunner?: GhRawRunner;
@@ -327,6 +349,7 @@ ${aliasLines.map((l) => `    ${l}`).join("\n")}
   return out;
 }
 
+/** Render a {@link GhExecResult} as a one-line `plain` summary or pretty `json`. */
 export function formatGhExecResult(result: GhExecResult, format: "plain" | "json"): string {
   if (format === "json") {
     return JSON.stringify(result, null, 2);
