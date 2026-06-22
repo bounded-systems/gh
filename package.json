@@ -4,7 +4,10 @@
   "description": "GitHub CLI wrapper with policy enforcement, rate-limit gating, and budget audit logging",
   "bounded": {
     "tagline": "GitHub CLI wrapper with policy enforcement, rate-limit gating, and budget audit logging",
-    "kind": "door"
+    "kind": "door",
+    "facet": "verb",
+    "role": "client",
+    "domain": "github"
   },
   "license": "MIT",
   "type": "module",
