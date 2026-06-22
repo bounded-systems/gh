@@ -1,6 +1,6 @@
 {
   "name": "@bounded-systems/gh",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GitHub CLI wrapper with policy enforcement, rate-limit gating, and budget audit logging",
   "bounded": {
     "tagline": "GitHub CLI wrapper with policy enforcement, rate-limit gating, and budget audit logging",
@@ -55,9 +55,9 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@bounded-systems/env": "npm:@jsr/bounded-systems__env",
-    "@bounded-systems/github-budget": "npm:@jsr/bounded-systems__github-budget",
-    "@bounded-systems/policy": "npm:@jsr/bounded-systems__policy",
-    "@bounded-systems/proc": "npm:@jsr/bounded-systems__proc"
+    "@bounded-systems/env": "npm:@jsr/bounded-systems__env@^0.2.0",
+    "@bounded-systems/github-budget": "npm:@jsr/bounded-systems__github-budget@^0.1.0",
+    "@bounded-systems/policy": "npm:@jsr/bounded-systems__policy@^0.2.1",
+    "@bounded-systems/proc": "npm:@jsr/bounded-systems__proc@^0.2.3"
   }
 }
