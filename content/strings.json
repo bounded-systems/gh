@@ -1,0 +1,10 @@
+{
+  "name": {
+    "type": "name",
+    "value": "gh"
+  },
+  "description": {
+    "type": "meta",
+    "value": "GitHub CLI wrapper with policy enforcement, rate-limit gating, and budget audit logging"
+  }
+}
