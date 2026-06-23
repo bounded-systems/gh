@@ -5,6 +5,10 @@
   },
   "description": {
     "type": "meta",
-    "value": "GitHub CLI wrapper with policy enforcement, rate-limit gating, and budget audit logging"
+    "value": "A wrapper around the GitHub CLI (gh) with policy enforcement, rate-limit gating, and budget audit logging.  Every gh invocation routes through here: the subcommand is policy-checked, the call is gated against its rate-limit budget (via @bounded-systems/github-budget), and the …"
+  },
+  "keywords": {
+    "type": "body",
+    "value": "GITHUB · GH · CLI-WRAPPER · POLICY · RATE-LIMIT · SEAM"
   }
 }
